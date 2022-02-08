@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Cross\StreamFile.Core\StreamFile.Core.csproj" />
+    <ProjectReference Include="..\..\Cross\StreamFile.Mapper\StreamFile.Mapper.csproj" />
+    <ProjectReference Include="..\StreamFile.Contract.Service\StreamFile.Contract.Service.csproj" />
+  </ItemGroup>
+
+</Project>
