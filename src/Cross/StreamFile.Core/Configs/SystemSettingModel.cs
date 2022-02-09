@@ -42,6 +42,7 @@ namespace StreamFile.Core.Configs
         public bool IsEnforceHttps { get; set; }
 
         public string SecretKey { get; set; }
+        public int MaxDownload { get; set; }
 
         //public QueueInfo ActionTransLogQueue { get; set; }
 

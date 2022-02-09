@@ -5,5 +5,7 @@ namespace StreamFile.Contract.Repository.Interface
 {
     public interface IDocumentStoreRepository : IRepository<DocumentStoreEntity>
     {
+        bool Edit(DocumentStoreEntity entity);
+        DocumentStoreEntity GetDocByDocumnetId(string documentId);
     }
 }

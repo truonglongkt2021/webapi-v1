@@ -11,15 +11,15 @@ namespace StreamFile.Core.Constants
         public class Documents
         {
             private const string BaseEndpoint = "~/" + AreaName + "/document";
-            public const string Download = BaseEndpoint + "/download";
+            public const string RequestDownload = BaseEndpoint + "/download-request";
+            public const string DownloadFile = BaseEndpoint + "/download-file";
             public const string Upload = BaseEndpoint + "/upload";
-
         }
 
-        public class App
+        public class Payment
         {
-            private const string BaseEndpoint = "~/" + AreaName + "/app";
-            public const string AddEndpoint = BaseEndpoint + "/add";
+            private const string BaseEndpoint = "~/" + AreaName + "/payment";
+            public const string Callback = BaseEndpoint + "/callback";
         }
     }
 }

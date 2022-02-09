@@ -5,10 +5,10 @@ using Serilog;
 using StreamFile.Contract.Repository.Interface;
 using StreamFile.Contract.Repository.Models.DocumentStore;
 using StreamFile.Contract.Service;
+using StreamFile.Core.Exceptions;
 using StreamFile.Core.Models.Documents;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace StreamFile.Service
 {
@@ -25,30 +25,39 @@ namespace StreamFile.Service
             _logger = Log.Logger;
         }
 
-        public Task<string> UploadDocument(AddDocumentModel request,
-                                                CancellationToken cancellationToken = default)
+        public void UploadDocument(AddDocumentModel request)
         {
             var entity = _mapper.Map<DocumentStoreEntity>(request);
-            CreateAsync(entity, cancellationToken);
-            return Task.FromResult(entity.Id);
-        }
-
-        public Task<string> CreateAsync(DocumentStoreEntity model, CancellationToken cancellationToken = default)
-        {
-            //set default value
-
-            _documentStoreRepository.Add(model);
-            UnitOfWork.SaveChanges();
-            return Task.FromResult(model.Id);
+            _documentStoreRepository.Insert(entity);
         }
 
         public DocumentStoreEntity GetByDocumnetId(string documentId)
         {
-           //var  Connection = new HubConnectionBuilder()
-           // .WithUrl("https://telesys.amazingtech.vn/signalr")
-           // .Build();
-            var result = _documentStoreRepository.GetSingle(w => w.DocumentId == documentId);
+            var result = _documentStoreRepository.GetDocByDocumnetId(documentId);
             return result;
+        }
+
+        public DocInfoModel DownloadFile(string documentId)
+        {
+            var document = _documentStoreRepository.GetDocByDocumnetId(documentId);
+            if (document == null) throw new AppException($"Document with ID: {documentId} is not found");
+
+            var files = Path.Combine(document.FilePath);
+            if (!System.IO.File.Exists(files)) throw new AppException($"Can not found find!");
+
+            return new DocInfoModel { FileName = document.FileName, FilePath = files};
+        }
+
+
+        public async void TestSignalR()
+        {
+            //using (var hubConnection = new HubConnection("https://telesys.amazingtech.vn/signalr"))
+            //{
+            //    IHubProxy stockTickerHubProxy = hubConnection.CreateHubProxy("ChatHub");
+            //    //stockTickerHubProxy.On<Stock>("UpdateStockPrice", stock => Console.WriteLine("Stock update for {0} new price {1}", stock.Symbol, stock.Price));
+            //    await hubConnection.Start();
+            //    await stockTickerHubProxy.Invoke("Send", "moa", "cai quan que");
+            //}
         }
     }
 }

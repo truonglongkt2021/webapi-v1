@@ -21,6 +21,7 @@ using StreamFile.WebApi.Filters;
 using StreamFile.WebApi.Modules;
 using System;
 using Microsoft.AspNetCore.SignalR;
+using StreamFile.WebApi.Extensions;
 
 namespace StreamFile.WebApi
 {
@@ -61,7 +62,7 @@ namespace StreamFile.WebApi
             //services.AddInvediaAutoMapper();
 
             services.AddMvcApi();
-
+            services.AddSignalRService();
             // Auto Register Dependency Injection
             services.AddDI();
             services.PrintServiceAddedToConsole();
@@ -134,7 +135,11 @@ namespace StreamFile.WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+
             app.UseRouting();
+            app.UseSignalRService();
+            
 
             app.UseAuthorization();
 

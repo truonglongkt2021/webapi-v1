@@ -5,9 +5,9 @@ using StreamFile.Contract.Service;
 using StreamFile.Core.Constants;
 using StreamFile.Core.Models;
 using StreamFile.Core.Models.Documents;
+using StreamFile.Core.Models.TransferLog;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace StreamFile.WebApi.Controllers
 {
@@ -25,9 +25,10 @@ namespace StreamFile.WebApi.Controllers
             _logger = Log.Logger;
         }
 
+        #region RequestDownload
         [HttpPost]
-        [Route(WebApiEndpoint.Documents.Download)]
-        public IActionResult Download([FromBody] RequestDownloadDocModel request)
+        [Route(WebApiEndpoint.Documents.RequestDownload)]
+        public IActionResult RequestDownload([FromBody] RequestDownloadDocModel request)
         {
             var result = new BaseModel<string>();
             var action = _transferLogService.GetlogByRefId(request.RefId);
@@ -54,13 +55,16 @@ namespace StreamFile.WebApi.Controllers
                 return BadRequest(result);
             }
 
-            _transferLogService.CreateTransferLog(request);
-            return Ok(result);
+            var data = _transferLogService.CreateTransferLog(request);
+            var response = new BaseModel<ResponseDownloadModel> { Data = data };
+            return Ok(response);
         }
+        #endregion RequestDownload
 
+        #region Upload New Doc
         [HttpPost]
         [Route(WebApiEndpoint.Documents.Upload)]
-        public async Task<IActionResult> Upload([FromBody] AddDocumentModel request)
+        public IActionResult Upload([FromBody] AddDocumentModel request)
         {
             var result = new BaseModel<string>();
             var fileCheck = _documentStoreService.GetByDocumnetId(request.DocumentId);
@@ -71,16 +75,38 @@ namespace StreamFile.WebApi.Controllers
                 return BadRequest(result);
             }
 
-            await _documentStoreService.UploadDocument(request);
+            _documentStoreService.UploadDocument(request);
             return Ok(result);
         }
+        #endregion Upload New Doc
 
-        //[HttpGet("/download")]
-        //public ActionResult Test()
-        //{
-        //    var a = "ssdsd";
-        //    _documentStoreService.GetByDocumnetId(a);
-        //    return Ok("s");
-        //}
+        #region Download file
+        [HttpGet]
+        [Route(WebApiEndpoint.Documents.DownloadFile)]
+        public ActionResult Download(string key)
+        {
+            var docID = _transferLogService.GetDocument(key);
+            var file = _documentStoreService.DownloadFile(docID);
+            return File(System.IO.File.ReadAllBytes(file.FilePath), "application/octet-stream", file.FileName);
+        }
+        #endregion Download file
+
+        #region CallbackPayment
+        [HttpPost]
+        [Route(WebApiEndpoint.Payment.Callback)]
+        public IActionResult CallbackPayment(CallbackPaymentModel request)
+        {
+            _transferLogService.CallbackPayment(request);
+            return Ok();
+        }
+        #endregion CallbackPayment
+
+        [HttpGet("/test-signalr")]
+        public IActionResult Test()
+        {
+            //_transferLogService.CallbackPayment(new CallbackPaymentModel()); ;
+            _documentStoreService.TestSignalR();
+            return Ok("s");
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace StreamFile.Core.Constants
     {
         public const string NEW = "New";
         public const string SENT = "Sent";
-        public const string SUCCESS = "Success";
+        public const string PAYMENT = "paymented";
         public const string DONE = "Done";
     }
     public class ResponseCodeConstants

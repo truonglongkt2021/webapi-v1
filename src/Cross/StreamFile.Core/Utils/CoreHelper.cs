@@ -18,7 +18,7 @@ namespace StreamFile.Core.Utils
 
         public static TimeZoneInfo SystemTimeZoneInfo => DateTimeHelper.GetTimeZoneInfo(Formattings.TimeZone);
 
-        public static DateTimeOffset SystemTimeNow => DateTimeOffset.UtcNow;
+        public static DateTimeOffset SystemTimeNow => DateTimeOffset.Now;
 
         public static DateTimeOffset UtcTimeNow => DateTimeOffset.UtcNow;
 

@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace StreamFile.Contract.Service
 {
-    public interface IDocumentStoreService : 
-        Base.ICreateable<DocumentStoreEntity, string>
+    public interface IDocumentStoreService
     {
-        public Task<string> UploadDocument(AddDocumentModel request,
-                                        CancellationToken cancellationToken = default);
-        //public Task<string> CreateAsync(DocumentStoreEntity model, CancellationToken cancellationToken = default);
+        void UploadDocument(AddDocumentModel request);
         public DocumentStoreEntity GetByDocumnetId(string documentId);
-
+        DocInfoModel DownloadFile(string documentId);
+        public  void TestSignalR();
     }
 }
