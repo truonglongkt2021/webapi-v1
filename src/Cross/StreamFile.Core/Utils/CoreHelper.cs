@@ -20,7 +20,7 @@ namespace StreamFile.Core.Utils
 
         public static DateTimeOffset SystemTimeNow => DateTimeOffset.Now;
 
-        public static DateTimeOffset UtcTimeNow => DateTimeOffset.UtcNow;
+        public static DateTimeOffset UtcTimeNow => DateTimeOffset.Now;
 
         public static DateTime UtcToSystemTime(this DateTimeOffset dateTimeOffsetUtc)
         {

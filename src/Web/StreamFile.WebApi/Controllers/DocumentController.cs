@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using StreamFile.Contract.Service;
@@ -8,6 +9,7 @@ using StreamFile.Core.Models.Documents;
 using StreamFile.Core.Models.TransferLog;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace StreamFile.WebApi.Controllers
 {
@@ -83,11 +85,16 @@ namespace StreamFile.WebApi.Controllers
         #region Download file
         [HttpGet]
         [Route(WebApiEndpoint.Documents.DownloadFile)]
-        public ActionResult Download(string key)
+        public  IActionResult Download(string key)
         {
             var docID = _transferLogService.GetDocument(key);
             var file = _documentStoreService.DownloadFile(docID);
-            return File(System.IO.File.ReadAllBytes(file.FilePath), "application/octet-stream", file.FileName);
+
+            File(file.FilePath, "application/octet-stream", file.FileName);
+            var content = System.IO.File.ReadAllBytes(file.FilePath);
+            //var JobId = BackgroundJob.Enqueue(() => File(System.IO.File.ReadAllBytes(file.FilePath), "application/octet-stream", file.FileName));
+            
+            return File(content, "application/octet-stream", file.FileName);
         }
         #endregion Download file
 

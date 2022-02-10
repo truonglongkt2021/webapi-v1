@@ -135,7 +135,7 @@ namespace StreamFile.WebApi
 
             app.UseHttpsRedirection();
 
-            app.UseMiddleware<ErrorHandlerMiddleware>();
+            //app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseRouting();
             app.UseSignalRService();

@@ -49,7 +49,7 @@ namespace StreamFile.Repository
 
         public TransferLogEntity GetPaymentedlogById(string id)
         {
-            var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.Id== id && _.Status == StatusConstant.PAYMENT && _.DeletedTime == null, null);
+            var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.Id == id && _.Status == StatusConstant.PAYMENT && _.DeletedTime == null, null);
             IDbConnection con = null;
             try
             {

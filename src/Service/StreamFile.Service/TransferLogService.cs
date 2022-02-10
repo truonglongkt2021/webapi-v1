@@ -72,7 +72,7 @@ namespace StreamFile.Service
             if (transLog.TotalDownload > SystemSettingModel.Instance.MaxDownload)
                 throw new AppException("over limited!");
 
-            if (transLog.TimeExpired > CoreHelper.SystemTimeNow)
+            if (transLog.TimeExpired < CoreHelper.SystemTimeNow)
                 throw new AppException("over expire time!");
 
             return transLog.DocumentId;

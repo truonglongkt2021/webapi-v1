@@ -45,6 +45,7 @@ namespace StreamFile.Service
             var files = Path.Combine(document.FilePath);
             if (!System.IO.File.Exists(files)) throw new AppException($"Can not found find!");
 
+ 
             return new DocInfoModel { FileName = document.FileName, FilePath = files};
         }
 
