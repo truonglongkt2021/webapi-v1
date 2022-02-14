@@ -12,5 +12,7 @@ namespace StreamFile.Contract.Service
         ResponseDownloadModel CreateTransferLog(RequestDownloadDocModel request);
         string GetDocument(string id);
         void CallbackPayment(CallbackPaymentModel model);
+        void DemoJob();
+        void LogHub(TransferLogEntity entity);
     }
 }

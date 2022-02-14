@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.DependencyInjection;
 using StreamFile.Service.Hub;
+using System;
 
 namespace StreamFile.WebApi.Extensions
 {
@@ -9,16 +11,28 @@ namespace StreamFile.WebApi.Extensions
         public static IServiceCollection AddSignalRService(this IServiceCollection services)
         {
             services.AddSignalR()
-                .AddHubOptions<DocHub>(options => { options.EnableDetailedErrors = true; });
+                .AddHubOptions<DocHub>(options => 
+                {
+                    options.EnableDetailedErrors = true;
+                    options.KeepAliveInterval = TimeSpan.FromMinutes(2);
+                });
 
             return services;
         }
 
         public static IApplicationBuilder UseSignalRService(this IApplicationBuilder app)
         {
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(routes =>
             {
-                endpoints.MapHub<DocHub>("/hub/link");
+                routes.MapHub<DocHub>("/hub/signalr");
+            });
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("https://localhost:44336",
+                                    "https://localhost:44347")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
             });
             return app;
         }

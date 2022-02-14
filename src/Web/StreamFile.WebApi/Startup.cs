@@ -22,6 +22,7 @@ using StreamFile.WebApi.Modules;
 using System;
 using Microsoft.AspNetCore.SignalR;
 using StreamFile.WebApi.Extensions;
+using StreamFile.Service.Job;
 
 namespace StreamFile.WebApi
 {
@@ -43,13 +44,16 @@ namespace StreamFile.WebApi
 
             services.AddApplicationInsightsTelemetry();
 
-            services.AddCors(o => o.AddPolicy("AllowOrigin", builder =>
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder => //AllowOrigin
             {
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .WithOrigins("https://localhost:44336",
+                                 "https://localhost:44347");
             }));
-
+            
             services.AddMemoryCache();
 
             services.AddDataProtection();
@@ -90,7 +94,7 @@ namespace StreamFile.WebApi
                     }));
 
             services.AddHangfireServer();
-            //services.AddSingleton<IJob, StatisticsBetsJob>();
+            services.AddSingleton<IDemoJob, DemoJob>();
             services.AddControllers().AddNewtonsoftJson();
 
             //services.AddDbContext<AppDbContext>(options =>
@@ -100,7 +104,8 @@ namespace StreamFile.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors("AllowOrigin");
+            app.UseCors("CorsPolicy"); //"AllowOrigin
+
 
             if (env.IsDevelopment())
             {
@@ -161,10 +166,10 @@ namespace StreamFile.WebApi
             //    routes.MapHub<UserHub>("/hubs/doc");
             //});
             app.UseInvediaHealthCheck();
-            //var jobService = app.ApplicationServices.GetRequiredService<IJob>();
+            var jobService = app.ApplicationServices.GetRequiredService<IDemoJob>();
             //var comJobService = app.ApplicationServices.GetRequiredService<IComJob>();
             //var calcComService = app.ApplicationServices.GetRequiredService<ICalcComJob>();
-            //RecurringJob.AddOrUpdate("bet-summary-hourly", () => jobService.Execute("hourly"), Cron.Hourly());
+            RecurringJob.AddOrUpdate("Demo-push-signalr", () => jobService.Execute(), Cron.Minutely());
             //RecurringJob.AddOrUpdate("bet-summary-daily", () => jobService.Execute("daily"), Cron.Daily);
             //RecurringJob.AddOrUpdate("commission-hourly", () => comJobService.Execute("hourly"), Cron.Hourly(30));
             //RecurringJob.AddOrUpdate("commission-daily", () => comJobService.Execute("daily"), Cron.Daily());

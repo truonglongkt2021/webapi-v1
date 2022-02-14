@@ -57,7 +57,7 @@ namespace StreamFile.Service
             {
                 OtpToken = addDB ? code : null
             };
-            _hub.Clients.User(request.PhoneNumber).LinkDoc("");
+            //_hub.Clients.All.SendAsync("linkdoc", request.PhoneNumber, "");
             return result;
         }
         #endregion CreateTransferLog
@@ -93,7 +93,7 @@ namespace StreamFile.Service
             //_transferLogRepository.Edit(transLog);
 
             var link = CreateLinkDownload("ss");//transLog.Id
-            _hub.Clients.User(model.PhoneNumber).LinkDoc(link);
+            //_hub.Clients.All.SendAsync("linkdoc", model.PhoneNumber, link);
         }
 
         private string CreateLinkDownload(string key) // key là id cua transferLog
@@ -103,5 +103,15 @@ namespace StreamFile.Service
             return link;
         }
         #endregion CallbackPayment
+
+        public void DemoJob()
+        {
+            _hub.Clients.All.LinkDoc("phu", "phu oc cho");
+        }
+
+        public void LogHub(TransferLogEntity entity)
+        {
+            _transferLogRepository.Insert(entity);
+        }
     }
 }

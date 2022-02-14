@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>7f3d7900-0eac-4d11-b9cc-1392e993c034</UserSecretsId>
-    <Version>2022.02.10.1</Version>
+    <Version>2022.02.10.2</Version>
 
   </PropertyGroup>
 
@@ -14,6 +14,10 @@
     <ProjectReference Include="..\..\Repository\StreamFile.Repository\StreamFile.Repository.csproj" />
     <ProjectReference Include="..\..\Service\StreamFile.Contract.Service\StreamFile.Contract.Service.csproj" />
     <ProjectReference Include="..\..\Service\StreamFile.Service\StreamFile.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
   </ItemGroup>
 
 </Project>
