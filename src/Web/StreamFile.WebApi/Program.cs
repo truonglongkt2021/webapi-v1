@@ -85,7 +85,7 @@ namespace StreamFile.WebApi
 
                 SystemSettingModel.Configs = root;
                 SystemSettingModel.Instance = root.Get<SystemSettingModel>();
-                //FundistSettingModel.Instance = root.GetSection<FundistSettingModel>("FundistSetting");
+                MomoSettingModel.Instance = root.GetSection<MomoSettingModel>("MomoSetting");
                 //CryptoSettingModel.Instance = root.GetSection<CryptoSettingModel>("CryptoSetting");
                 //PortalSettingModel.Instance = root.GetSection<PortalSettingModel>("PortalSetting");
             });

@@ -6,6 +6,7 @@ using StreamFile.Contract.Service;
 using StreamFile.Core.Constants;
 using StreamFile.Core.Models;
 using StreamFile.Core.Models.Documents;
+using StreamFile.Core.Models.MomoPayment;
 using StreamFile.Core.Models.TransferLog;
 using System;
 using System.IO;
@@ -18,12 +19,14 @@ namespace StreamFile.WebApi.Controllers
     {
         private readonly IDocumentStoreService _documentStoreService;
         private readonly ITransferLogService _transferLogService;
+        private readonly IMomoPaymentService _momoPaymentService;
         private readonly ILogger _logger;
 
         public DocumentController(IServiceProvider serviceProvider)
         {
             _documentStoreService = serviceProvider.GetRequiredService<IDocumentStoreService>();
             _transferLogService = serviceProvider.GetRequiredService<ITransferLogService>();
+            _momoPaymentService = serviceProvider.GetRequiredService<IMomoPaymentService>();
             _logger = Log.Logger;
         }
 
@@ -111,9 +114,9 @@ namespace StreamFile.WebApi.Controllers
         [HttpGet("/test-signalr")]
         public IActionResult Test()
         {
+            return Ok(_momoPaymentService.PaymentRequireService());
             //_transferLogService.CallbackPayment(new CallbackPaymentModel()); ;
-            _documentStoreService.TestSignalR();
-            return Ok("s");
+            //_documentStoreService.TestSignalR();
         }
     }
 }

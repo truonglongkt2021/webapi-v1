@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StreamFile.Contract.Repository.Models.TransferLog
 {
-    [Table("TransferLog")]
+    [Table("TransferLogs")]
     public class TransferLogEntity : Entity
     {
         public TransferLogEntity()

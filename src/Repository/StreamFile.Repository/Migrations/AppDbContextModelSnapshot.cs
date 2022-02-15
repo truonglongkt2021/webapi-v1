@@ -59,7 +59,7 @@ namespace StreamFile.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DocumentStore");
+                    b.ToTable("DocumentStores");
                 });
 
             modelBuilder.Entity("StreamFile.Contract.Repository.Models.TransferLog.TransferLogEntity", b =>
@@ -111,7 +111,7 @@ namespace StreamFile.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransferLog");
+                    b.ToTable("TransferLogs");
                 });
 #pragma warning restore 612, 618
         }

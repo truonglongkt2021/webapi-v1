@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StreamFile.Contract.Repository.Models.DocumentStore
 {
-    [Table("DocumentStore")]
+    [Table("DocumentStores")]
     public class DocumentStoreEntity : Entity
     {
         public DocumentStoreEntity()

@@ -32,7 +32,7 @@ namespace StreamFile.WebApi.Controllers
             return Ok(version);
         }
 
-        [HttpGet("/download")]
+        [HttpGet("/test")]
         public ActionResult Download()
         {
             var pathRoot = DirectoryHelper.SpecialFolder.GetCurrentWindowUserFolder();

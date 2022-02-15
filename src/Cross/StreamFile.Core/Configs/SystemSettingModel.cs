@@ -63,16 +63,18 @@ namespace StreamFile.Core.Configs
         public int MaxWorker { get; set; }
     }
 
-    public class FundistSettingModel
+    public class MomoSettingModel
     {
-        public static FundistSettingModel Instance { get; set; }
+        public static MomoSettingModel Instance { get; set; }
         public string BaseUrl { get; set; }
-        public string AppKey { get; set; }
-        public string AppSecret { get; set; }
-        public string SystemCode { get; set; }
-        public string Currency { get; set; }
-        public string Language { get; set; }
-        public string ServerIp { get; set; }
+        public string AccessKey { get; set; }
+        public string PartnerCode { get; set; }
+        public string PartnerName { get; set; }
+        public string StoreId { get; set; }
+        public string IpnUrl { get; set; }
+        public string RedirectUrl { get; set; }
+        public string SecretKey { get; set; }
+
     }
 
 

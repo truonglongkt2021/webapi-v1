@@ -40,6 +40,7 @@ namespace StreamFile.WebApi
         {
             // System Setting
             services.AddSystemSetting(Configuration.GetSection<SystemSettingModel>("SystemSetting"));
+
             services.AddInvediaHttpContext();
 
             services.AddApplicationInsightsTelemetry();

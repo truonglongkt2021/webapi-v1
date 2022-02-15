@@ -8,7 +8,7 @@ namespace StreamFile.Repository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DocumentStore",
+                name: "DocumentStores",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -30,7 +30,7 @@ namespace StreamFile.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransferLog",
+                name: "TransferLogs",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -58,10 +58,10 @@ namespace StreamFile.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DocumentStore");
+                name: "DocumentStores");
 
             migrationBuilder.DropTable(
-                name: "TransferLog");
+                name: "TransferLogs");
         }
     }
 }
