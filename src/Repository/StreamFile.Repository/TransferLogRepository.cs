@@ -15,7 +15,7 @@ namespace StreamFile.Repository
 {
     [ScopedDependency(ServiceType = typeof(ITransferLogRepository))]
 
-    public class TransferLogRepository : Repository<TransferLogEntity>, ITransferLogRepository
+    public class TransferLogRepository : Repository<TransferLogsEntity>, ITransferLogRepository
     {
         private readonly ILogger _logger;
         public TransferLogRepository(IDbContext dbContext) : base(dbContext)
@@ -23,7 +23,7 @@ namespace StreamFile.Repository
             _logger = Log.Logger;
         }
 
-        public bool Edit(TransferLogEntity entity)
+        public bool Edit(TransferLogsEntity entity)
         {
             entity.LastUpdatedTime = CoreHelper.SystemTimeNow;
             var sqlQuery = SqlGenerator.GetUpdate(entity);
@@ -47,7 +47,7 @@ namespace StreamFile.Repository
             }
         }
 
-        public TransferLogEntity GetPaymentedlogById(string id)
+        public TransferLogsEntity GetPaymentedlogById(string id)
         {
             var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.Id == id && _.Status == StatusConstant.PAYMENT && _.DeletedTime == null, null);
             IDbConnection con = null;
@@ -55,7 +55,7 @@ namespace StreamFile.Repository
             {
                 con = new SqlConnection(ConnectionString);
                 con.Open();
-                var result = con.QueryFirstOrDefault<TransferLogEntity>(sqlQuery.GetSql(), sqlQuery.Param);
+                var result = con.QueryFirstOrDefault<TransferLogsEntity>(sqlQuery.GetSql(), sqlQuery.Param);
                 return result;
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace StreamFile.Repository
             }
         }
 
-        public TransferLogEntity GetlogById(string Id)
+        public TransferLogsEntity GetlogById(string Id)
         {
             var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.Id == Id && _.DeletedTime == null, null);
             IDbConnection con = null;
@@ -78,7 +78,7 @@ namespace StreamFile.Repository
             {
                 con = new SqlConnection(ConnectionString);
                 con.Open();
-                var result = con.QueryFirstOrDefault<TransferLogEntity>(sqlQuery.GetSql(), sqlQuery.Param);
+                var result = con.QueryFirstOrDefault<TransferLogsEntity>(sqlQuery.GetSql(), sqlQuery.Param);
                 return result;
             }
             catch (Exception ex)
@@ -93,7 +93,7 @@ namespace StreamFile.Repository
             }
         }
 
-        public TransferLogEntity GetlogByRefId(string refId)
+        public TransferLogsEntity GetlogByRefId(string refId)
         {
             var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.RefId == refId && _.DeletedTime == null, null);
             IDbConnection con = null;
@@ -101,7 +101,7 @@ namespace StreamFile.Repository
             {
                 con = new SqlConnection(ConnectionString);
                 con.Open();
-                var result = con.QueryFirstOrDefault<TransferLogEntity>(sqlQuery.GetSql(), sqlQuery.Param);
+                var result = con.QueryFirstOrDefault<TransferLogsEntity>(sqlQuery.GetSql(), sqlQuery.Param);
                 return result;
             }
             catch (Exception ex)
@@ -116,10 +116,9 @@ namespace StreamFile.Repository
             }
         }
 
-        public TransferLogEntity GetLogFromCallback(string numberPhone, string otpCode)
+        public TransferLogsEntity GetLogFromCallback(string orderId) //Id
         {
-            var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.PhoneNumber == numberPhone 
-                                        && _.OtpToken == otpCode
+            var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.Id == orderId
                                         && _.Status == StatusConstant.NEW
                                         && _.DeletedTime == null, null);
             IDbConnection con = null;
@@ -127,14 +126,13 @@ namespace StreamFile.Repository
             {
                 con = new SqlConnection(ConnectionString);
                 con.Open();
-                var result = con.QueryFirstOrDefault<TransferLogEntity>(sqlQuery.GetSql(), sqlQuery.Param);
+                var result = con.QueryFirstOrDefault<TransferLogsEntity>(sqlQuery.GetSql(), sqlQuery.Param);
                 return result;
             }
             catch (Exception ex)
             {
                 _logger.Information(sqlQuery.GetSql(), sqlQuery.Param);
-                _logger.Error(ex, ex.Message, numberPhone);
-                _logger.Error(ex, ex.Message, otpCode);
+                _logger.Error(ex, ex.Message, orderId);
 
                 return null;
             }

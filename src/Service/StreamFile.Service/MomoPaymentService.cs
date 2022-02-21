@@ -11,6 +11,8 @@ using StreamFile.Core.Constants;
 using StreamFile.Core.Models.MomoPayment;
 using StreamFile.Core.Utils;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace StreamFile.Service
 {
@@ -35,33 +37,34 @@ namespace StreamFile.Service
             var JsonData = JsonConvert.SerializeObject(DataInfo);
             var extraData = StringUtils.PlainTextToBase64(JsonData);
 
-            var signatureValue = $"accessKey={MomoSettingModel.Instance.AccessKey}&" +
-                                 $"amount=10000&" +
-                                 $"extraData={extraData}&" +
-                                 $"ipnUrl={MomoSettingModel.Instance.IpnUrl}&" +
-                                 $"orderId=98350e6b12934849887443547be96ecf&" +
-                                 $"orderInfo=Test order&" +
-                                 $"partnerCode={MomoSettingModel.Instance.PartnerCode}&" +
-                                 $"redirectUrl ={MomoSettingModel.Instance.RedirectUrl}&" +
-                                 $"requestId=98350e6b12934849887443547be96ecf&" +
-                                 $"requestType =payWithMethod";
-            var signature = SecurityHelper.EncryptHmacSha256(signatureValue, MomoSettingModel.Instance.SecretKey);
+            var signatureValue = "accessKey=" + MomoSettingModel.Instance.AccessKey +
+                "&amount=" + 15000 +
+                "&extraData=" + extraData +
+                "&ipnUrl=" + MomoSettingModel.Instance.IpnUrl +
+                "&orderId=" + "98350e6b12934849887443547be96563f5" +
+                "&orderInfo=" + "Test order" +
+                "&partnerCode=" + MomoSettingModel.Instance.PartnerCode +
+                "&redirectUrl=" + MomoSettingModel.Instance.RedirectUrl +
+                "&requestId=" + "98350e6b12934849887443547be96563f5" +
+                "&requestType=" + "captureWallet"
+                ;
+            var momoSignnature = StringUtils.signSHA256(signatureValue, MomoSettingModel.Instance.SecretKey);
 
             var model = new RequirePaymentModel
             {
                 partnerCode = MomoSettingModel.Instance.PartnerCode,
                 partnerName = MomoSettingModel.Instance.PartnerName,
                 storeId = MomoSettingModel.Instance.StoreId,
-                requestId = "98350e6b12934849887443547be96ecf",
-                amount = 10000,
-                orderId = "98350e6b12934849887443547be96ecf",
-                requestType = "payWithMethod",
+                requestId = "98350e6b12934849887443547be96563f5",
+                amount = 15000,
+                orderId = "98350e6b12934849887443547be96563f5",
+                requestType = "captureWallet",
                 redirectUrl = MomoSettingModel.Instance.RedirectUrl,
                 ipnUrl = MomoSettingModel.Instance.IpnUrl,
                 lang = LanguageCode.Vietname,
                 orderInfo = "Test order",
                 extraData = extraData,
-                signature = signature
+                signature = momoSignnature
             };
 
             var Client = new RestClient(MomoSettingModel.Instance.BaseUrl);
@@ -74,6 +77,11 @@ namespace StreamFile.Service
             //    return response.ErrorMessage;
             //}
             return response.Content;
+        }
+
+        public void RedirectLinkTest()
+        {
+            _logger.Information("RedirectLink: Momo đã gọi call back!");
         }
     }
 }

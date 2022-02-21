@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StreamFile.Contract.Repository.Models.DocumentStore
 {
     [Table("DocumentStores")]
-    public class DocumentStoreEntity : Entity
+    public class DocumentStoresEntity : Entity
     {
-        public DocumentStoreEntity()
+        public DocumentStoresEntity()
         {
             ContentType = ApplicationConstant.FileContentType;
         }

@@ -107,7 +107,7 @@ namespace StreamFile.WebApi.Controllers
         public IActionResult CallbackPayment(CallbackPaymentModel request)
         {
             _transferLogService.CallbackPayment(request);
-            return Ok();
+            return Accepted();
         }
         #endregion CallbackPayment
 

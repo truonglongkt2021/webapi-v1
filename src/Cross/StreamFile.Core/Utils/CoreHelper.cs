@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using StreamFile.Core.Constants;
 using System;
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace StreamFile.Core.Utils
 {

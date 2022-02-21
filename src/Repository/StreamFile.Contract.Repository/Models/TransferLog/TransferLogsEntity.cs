@@ -1,15 +1,13 @@
 ﻿using StreamFile.Core.Utils;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace StreamFile.Contract.Repository.Models.TransferLog
 {
     [Table("TransferLogs")]
-    public class TransferLogEntity : Entity
+    public class TransferLogsEntity : Entity
     {
-        public TransferLogEntity()
+        public TransferLogsEntity()
         {
             TimeExpired = CoreHelper.SystemTimeNow.AddHours(6);
         }

@@ -10,7 +10,7 @@ using StreamFile.Repository.Infrastructure;
 namespace StreamFile.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220208035655_Init")]
+    [Migration("20220221154344_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,10 +18,10 @@ namespace StreamFile.Repository.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("StreamFile.Contract.Repository.Models.DocumentStore.DocumentStoreEntity", b =>
+            modelBuilder.Entity("StreamFile.Contract.Repository.Models.DocumentStore.DocumentStoresEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -61,10 +61,10 @@ namespace StreamFile.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DocumentStore");
+                    b.ToTable("DocumentStores");
                 });
 
-            modelBuilder.Entity("StreamFile.Contract.Repository.Models.TransferLog.TransferLogEntity", b =>
+            modelBuilder.Entity("StreamFile.Contract.Repository.Models.TransferLog.TransferLogsEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -113,7 +113,7 @@ namespace StreamFile.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransferLog");
+                    b.ToTable("TransferLogs");
                 });
 #pragma warning restore 612, 618
         }

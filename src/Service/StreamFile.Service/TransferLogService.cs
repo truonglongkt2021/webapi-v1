@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 //using Invedia.Web.Middlewares.HttpContextMiddleware;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Serilog;
 using StreamFile.Contract.Repository.Interface;
 using StreamFile.Contract.Repository.Models.TransferLog;
 using StreamFile.Contract.Service;
@@ -22,16 +24,18 @@ namespace StreamFile.Service
     public class TransferLogService : Base.Service, ITransferLogService
     {
         private readonly ITransferLogRepository _transferLogRepository;
-        private readonly IHubContext<DocHub, IDocHub> _hub; 
+        private readonly IHubContext<DocHub, IDocHub> _hub;
+        private readonly ILogger _logger;
         public TransferLogService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _transferLogRepository = serviceProvider.GetRequiredService<ITransferLogRepository>();
             _hub = serviceProvider.GetRequiredService<IHubContext<DocHub, IDocHub>>();
+            _logger = Log.Logger;
         }
 
         #region GetlogByRefId
         // Get Transaction log follow refID(Id được map với Id client)
-        public TransferLogEntity GetlogByRefId(string refId)
+        public TransferLogsEntity GetlogByRefId(string refId)
         {
             var result = _transferLogRepository.GetlogByRefId(refId);
             return result;
@@ -43,7 +47,7 @@ namespace StreamFile.Service
         public ResponseDownloadModel CreateTransferLog(RequestDownloadDocModel request)
         {
             var code = CoreHelper.RandomTokenString();
-            var entity = new TransferLogEntity()
+            var entity = new TransferLogsEntity()
             {
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
@@ -83,17 +87,19 @@ namespace StreamFile.Service
         // hookup from SMS payment
         public void CallbackPayment(CallbackPaymentModel model)
         {
-            var transLog = _transferLogRepository.GetLogFromCallback(model.PhoneNumber, model.OTP);
+            var transLog = _transferLogRepository.GetLogFromCallback(model.orderId);
             if (transLog == null)
             {
                 // làm cai service ghi log lại sau
-                //return;
+                _logger.Information("Callback Info: Can not found order in DB");
+                return;
             }
-            //transLog.Status = StatusConstant.PAYMENT;
-            //_transferLogRepository.Edit(transLog);
+            transLog.Status = StatusConstant.PAYMENT;
 
-            var link = CreateLinkDownload("ss");//transLog.Id
-            //_hub.Clients.All.SendAsync("linkdoc", model.PhoneNumber, link);
+            //var link = CreateLinkDownload("ss");//transLog.Id
+            transLog.Email = JsonConvert.SerializeObject(model);
+            _transferLogRepository.Edit(transLog);
+
         }
 
         private string CreateLinkDownload(string key) // key là id cua transferLog
@@ -109,7 +115,7 @@ namespace StreamFile.Service
             _hub.Clients.All.LinkDoc("phu", "phu oc cho");
         }
 
-        public void LogHub(TransferLogEntity entity)
+        public void LogHub(TransferLogsEntity entity)
         {
             _transferLogRepository.Insert(entity);
         }

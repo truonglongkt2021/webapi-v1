@@ -17,12 +17,12 @@ namespace StreamFile.Core.Models.MomoPayment
         public string orderInfo { get; set; }
         public string redirectUrl { get; set; }
         public string ipnUrl { get; set; }
-        public string partnerClientId { get; set; }
+        //public string partnerClientId { get; set; }
         public string requestType { get; set; }
         public string extraData { get; set; }
-        public ProductInfo productInfo { get; set; }
-        public UserInfo userInfo { get; set; }
-        public bool autoCapture { get; set; }
+        //public ProductInfo productInfo { get; set; }
+       // public UserInfo userInfo { get; set; }
+       // public bool autoCapture { get; set; }
         public string lang { get; set; }
         public string signature { get; set; }
     }

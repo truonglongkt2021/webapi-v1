@@ -8,11 +8,11 @@ namespace StreamFile.Contract.Service
 {
     public interface ITransferLogService
     {
-        TransferLogEntity GetlogByRefId(string refId);
+        TransferLogsEntity GetlogByRefId(string refId);
         ResponseDownloadModel CreateTransferLog(RequestDownloadDocModel request);
         string GetDocument(string id);
         void CallbackPayment(CallbackPaymentModel model);
         void DemoJob();
-        void LogHub(TransferLogEntity entity);
+        void LogHub(TransferLogsEntity entity);
     }
 }

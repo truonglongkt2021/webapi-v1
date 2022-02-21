@@ -13,7 +13,7 @@ using System.Data.SqlClient;
 namespace StreamFile.Repository
 {
     [ScopedDependency(ServiceType = typeof(IDocumentStoreRepository))]
-    public class DocumentStoreRepository : Repository<DocumentStoreEntity>, IDocumentStoreRepository
+    public class DocumentStoreRepository : Repository<DocumentStoresEntity>, IDocumentStoreRepository
     {
         private readonly ILogger _logger;
         public DocumentStoreRepository(IDbContext dbContext) : base(dbContext)
@@ -21,7 +21,7 @@ namespace StreamFile.Repository
             _logger = Log.Logger;
         }
 
-        public bool Edit(DocumentStoreEntity entity)
+        public bool Edit(DocumentStoresEntity entity)
         {
             entity.LastUpdatedTime = CoreHelper.SystemTimeNow;
             var sqlQuery = SqlGenerator.GetUpdate(entity);
@@ -45,7 +45,7 @@ namespace StreamFile.Repository
             }
         }
 
-        public DocumentStoreEntity GetDocByDocumnetId(string documentId)
+        public DocumentStoresEntity GetDocByDocumnetId(string documentId)
         {
             var sqlQuery = SqlGenerator.GetSelectFirst(_ => _.DocumentId == documentId, null);
             IDbConnection con = null;
@@ -53,7 +53,7 @@ namespace StreamFile.Repository
             {
                 con = new SqlConnection(ConnectionString);
                 con.Open();
-                var result = con.QuerySingle<DocumentStoreEntity>(sqlQuery.GetSql(), sqlQuery.Param);
+                var result = con.QuerySingle<DocumentStoresEntity>(sqlQuery.GetSql(), sqlQuery.Param);
                 return result;
             }
             catch (Exception ex)

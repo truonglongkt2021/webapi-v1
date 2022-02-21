@@ -27,11 +27,11 @@ namespace StreamFile.Service
 
         public void UploadDocument(AddDocumentModel request)
         {
-            var entity = _mapper.Map<DocumentStoreEntity>(request);
+            var entity = _mapper.Map<DocumentStoresEntity>(request);
             _documentStoreRepository.Insert(entity);
         }
 
-        public DocumentStoreEntity GetByDocumnetId(string documentId)
+        public DocumentStoresEntity GetByDocumnetId(string documentId)
         {
             var result = _documentStoreRepository.GetDocByDocumnetId(documentId);
             return result;

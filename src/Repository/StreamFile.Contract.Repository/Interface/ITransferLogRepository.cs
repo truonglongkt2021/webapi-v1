@@ -3,12 +3,12 @@ using StreamFile.Contract.Repository.Models.TransferLog;
 
 namespace StreamFile.Contract.Repository.Interface
 {
-    public interface ITransferLogRepository : IRepository<TransferLogEntity>
+    public interface ITransferLogRepository : IRepository<TransferLogsEntity>
     {
-        TransferLogEntity GetlogByRefId(string refId);
-        TransferLogEntity GetPaymentedlogById(string id);
-        TransferLogEntity GetlogById(string Id);
-        bool Edit(TransferLogEntity entity);
-        TransferLogEntity GetLogFromCallback(string numberPhone, string otpCode);
+        TransferLogsEntity GetlogByRefId(string refId);
+        TransferLogsEntity GetPaymentedlogById(string id);
+        TransferLogsEntity GetlogById(string Id);
+        bool Edit(TransferLogsEntity entity);
+        TransferLogsEntity GetLogFromCallback(string orderId);
     }
 }

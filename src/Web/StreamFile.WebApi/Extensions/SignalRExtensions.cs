@@ -14,7 +14,6 @@ namespace StreamFile.WebApi.Extensions
                 .AddHubOptions<DocHub>(options => 
                 {
                     options.EnableDetailedErrors = true;
-                    options.KeepAliveInterval = TimeSpan.FromMinutes(2);
                 });
 
             return services;

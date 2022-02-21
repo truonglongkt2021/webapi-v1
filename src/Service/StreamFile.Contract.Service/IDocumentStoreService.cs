@@ -11,7 +11,7 @@ namespace StreamFile.Contract.Service
     public interface IDocumentStoreService
     {
         void UploadDocument(AddDocumentModel request);
-        public DocumentStoreEntity GetByDocumnetId(string documentId);
+        public DocumentStoresEntity GetByDocumnetId(string documentId);
         DocInfoModel DownloadFile(string documentId);
         public  void TestSignalR();
     }

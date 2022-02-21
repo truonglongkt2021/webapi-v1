@@ -26,7 +26,7 @@ namespace StreamFile.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentStore", x => x.Id);
+                    table.PrimaryKey("PK_DocumentStores", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,7 +51,7 @@ namespace StreamFile.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TransferLog", x => x.Id);
+                    table.PrimaryKey("PK_TransferLogs", x => x.Id);
                 });
         }
 

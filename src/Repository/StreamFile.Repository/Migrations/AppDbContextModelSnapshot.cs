@@ -16,10 +16,10 @@ namespace StreamFile.Repository.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("StreamFile.Contract.Repository.Models.DocumentStore.DocumentStoreEntity", b =>
+            modelBuilder.Entity("StreamFile.Contract.Repository.Models.DocumentStore.DocumentStoresEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -62,7 +62,7 @@ namespace StreamFile.Repository.Migrations
                     b.ToTable("DocumentStores");
                 });
 
-            modelBuilder.Entity("StreamFile.Contract.Repository.Models.TransferLog.TransferLogEntity", b =>
+            modelBuilder.Entity("StreamFile.Contract.Repository.Models.TransferLog.TransferLogsEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");

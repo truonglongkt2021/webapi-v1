@@ -8,7 +8,7 @@ namespace StreamFile.Mapper
     {
         public DocumentsStoreProfile()
         {
-            CreateMap<AddDocumentModel, DocumentStoreEntity>().ReverseMap();
+            CreateMap<AddDocumentModel, DocumentStoresEntity>().ReverseMap();
         }
     }
 }

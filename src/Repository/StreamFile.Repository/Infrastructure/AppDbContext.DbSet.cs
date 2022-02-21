@@ -6,8 +6,8 @@ namespace StreamFile.Repository.Infrastructure
 {
     public sealed partial class AppDbContext
     {
-        public DbSet<DocumentStoreEntity> DocumentStore { get; set; }
-        public DbSet<TransferLogEntity> TransferLog { get; set; }
+        public DbSet<DocumentStoresEntity> DocumentStore { get; set; }
+        public DbSet<TransferLogsEntity> TransferLog { get; set; }
 
     }
 }

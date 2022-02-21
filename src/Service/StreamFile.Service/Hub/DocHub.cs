@@ -19,6 +19,7 @@ namespace StreamFile.Service.Hub
         }
         public Task SendMessageToUser(string name, string message)
         {
+
             return Clients.All.LinkDoc(name, message);
         }
 
